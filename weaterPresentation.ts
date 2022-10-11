@@ -56,6 +56,12 @@ const cities: Array<ICity> = [
         lat: "-11.3333",
         long: "-67.6667"
     },
+    {
+        id: 10,
+        city: "Ushuaia",
+        lat: "-54.8",
+        long: "-68.3"
+    },
 ];
 
 const temperatureHtml = document.getElementById("temperature")!;
