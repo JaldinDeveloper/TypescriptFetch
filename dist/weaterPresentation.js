@@ -64,11 +64,46 @@ const cities = [
         long: "-67.6667"
     },
 ];
-const temperatureText = document.getElementById("temperature");
-export const fetchWeather = (lat, lon) => {
-    let currentWeather = fetchWeatherFrom(lat, lon);
-    console.log(currentWeather);
-};
+const temperatureHtml = document.getElementById("temperature");
+const descriptionHtml = document.getElementById("description");
+const cityHtml = document.getElementById("city");
+const countryHtml = document.getElementById("country");
+const iconImg = document.getElementById("icon");
+const loading = document.getElementById("loading");
+const loading_container = document.getElementById("loading-container");
+const information = document.getElementById("information");
+function timeout(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+export const fetchWeather = (lat, lon) => __awaiter(void 0, void 0, void 0, function* () {
+    const weather = yield fetchWeatherFrom(lat, lon);
+    setTimeout(() => {
+        loading_container.style.visibility = 'visible';
+        loading.style.width = "10%";
+    }, 500);
+    setTimeout(() => {
+        loading.style.width = "30%";
+    }, 1000);
+    setTimeout(() => {
+        loading.style.width = "50%";
+    }, 1500);
+    setTimeout(() => {
+        loading.style.width = "70%";
+    }, 2000);
+    setTimeout(() => {
+        loading.style.width = "90%";
+    }, 2500);
+    setTimeout(() => {
+        loading.style.width = "100%";
+        loading_container.style.visibility = "hidden";
+        temperatureHtml.textContent = weather.temperature + " °C";
+        descriptionHtml.textContent = weather.description;
+        cityHtml.textContent = weather.city;
+        countryHtml.textContent = weather.country;
+        iconImg.innerHTML = `<img src="icons/${weather.iconId}.png"/>`;
+        loading.style.width = "0%";
+    }, 3000);
+});
 export const loadList = () => __awaiter(void 0, void 0, void 0, function* () {
     let cities_list = document.getElementById("cities-list");
     cities.forEach((city) => {
@@ -83,4 +118,3 @@ export const loadList = () => __awaiter(void 0, void 0, void 0, function* () {
     });
 });
 loadList();
-fetchWeatherFrom("1", "2");

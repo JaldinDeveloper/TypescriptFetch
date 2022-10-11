@@ -5,30 +5,22 @@ import { IWeather } from "./IWeather";
     const KEY: string = "5bcb14e4112b3edf06ab910aaff0768a";
     const KELVIN = 273;
 
-    export const fetchWeatherFrom = (lat:string, lon:string):IWeather => {
+    export const fetchWeatherFrom = async (lat:string, lon:string):Promise<IWeather> => {
         const CONNECTION_STRING = `https://${LINK}lat=${lat}&lon=${lon}&appid=${KEY}`;
-        console.log(CONNECTION_STRING);
         let result: IWeather = {
-            city: "Weather",
-            temperature: "Temperature",
-            iconId: "weather-icon-weather",
-            description: "Temperature",
-            country: "Weather",
+            city: "",
+            temperature: "",
+            iconId: "",
+            description: "",
+            country: "",
         };
-        fetch(CONNECTION_STRING)
-                   .then(res => res.json())
-                   .then(res => {
-                    //console.log(res.sys.country);
-                    
-                        result.city = res.name;
-                        result.iconId = res.weather[0].icon;
-                        result.description = res.weather[0].description;
-                        result.temperature = Math.floor(res.main.temp - KELVIN)+"";
-                        result.country = res.sys.country;
-                        //console.log(result);
-                        
-                        return result;
-                    });
+        const promise = await fetch(CONNECTION_STRING);
+        const res = await promise.json();
+        result.city = res.name;
+        result.iconId = res.weather[0].icon;
+        result.description = res.weather[0].description;
+        result.temperature = Math.floor(res.main.temp - KELVIN)+"";
+        result.country = res.sys.country;
         return result;
     }
 
